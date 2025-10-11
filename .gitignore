@@ -1,0 +1,65 @@
+# Kotlin Multiplatform
+.gradle/
+build/
+out/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Kotlin Multiplatform metadata and caches
+.kotlin/
+
+
+# macOS
+.DS_Store
+
+# Android
+*.apk
+*.ap_
+*.dex
+*.class
+*.log
+*.jar
+*.keystore
+captures/
+externalNativeBuild/
+.cxx/
+local.properties
+
+# iOS
+*.xcuserdata
+*.xcuserstate
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+*.xcworkspace/
+Pods/
+DerivedData/
+build/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+# Common
+node_modules/
+*.swp
+*.swo
+*.orig
+*.tmp
+*.log
+*.bak
+
+# Kotlin/Native
+*.konan/
+*.kotlin_module
+
+# JetBrains cache (optional)
+.idea/
+.idea_modules/
+
+# Misc
+*.env
+.env.*
+
