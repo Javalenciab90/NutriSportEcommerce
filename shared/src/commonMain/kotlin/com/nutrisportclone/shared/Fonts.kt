@@ -1,4 +1,4 @@
-package com.nutrisportclone.share
+package com.nutrisportclone.shared
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily

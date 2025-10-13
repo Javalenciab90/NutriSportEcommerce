@@ -28,14 +28,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import com.nutrisportclone.share.FontSize
-import com.nutrisportclone.share.Gray
-import com.nutrisportclone.share.GrayDarker
-import com.nutrisportclone.share.GrayLighter
-import com.nutrisportclone.share.IconSecondary
-import com.nutrisportclone.share.Resources
-import com.nutrisportclone.share.SurfaceLighter
-import com.nutrisportclone.share.TextPrimary
+import com.nutrisportclone.shared.FontSize
+import com.nutrisportclone.shared.GrayDarker
+import com.nutrisportclone.shared.IconSecondary
+import com.nutrisportclone.shared.Resources
+import com.nutrisportclone.shared.SurfaceLighter
+import com.nutrisportclone.shared.TextPrimary
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 

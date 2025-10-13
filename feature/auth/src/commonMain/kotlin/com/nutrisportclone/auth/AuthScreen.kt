@@ -8,24 +8,32 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.mmk.kmpauth.firebase.google.GoogleButtonUiContainerFirebase
 import com.nutrisportclone.auth.component.GoogleSignInButton
-import com.nutrisportclone.share.Alpha
-import com.nutrisportclone.share.BebasNeueFont
-import com.nutrisportclone.share.FontSize
-import com.nutrisportclone.share.Surface
-import com.nutrisportclone.share.TextPrimary
-import com.nutrisportclone.share.TextSecondary
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import com.nutrisportclone.shared.Alpha
+import com.nutrisportclone.shared.BebasNeueFont
+import com.nutrisportclone.shared.FontSize
+import com.nutrisportclone.shared.Surface
+import com.nutrisportclone.shared.SurfaceBrand
+import com.nutrisportclone.shared.SurfaceError
+import com.nutrisportclone.shared.TextPrimary
+import com.nutrisportclone.shared.TextSecondary
+import com.nutrisportclone.shared.TextWhite
 import rememberMessageBarState
 
 @Composable
 fun AuthScreen() {
     val messageBarState = rememberMessageBarState()
+    var loadingState by remember { mutableStateOf(false) }
 
     Scaffold { paddingValues ->
         ContentWithMessageBar(
@@ -36,7 +44,11 @@ fun AuthScreen() {
                 ),
             contentBackgroundColor = Surface,
             messageBarState = messageBarState,
-            errorMaxLines = 2
+            errorMaxLines = 2,
+            errorContainerColor = SurfaceError,
+            errorContentColor = TextWhite,
+            successContainerColor = SurfaceBrand,
+            successContentColor = TextPrimary,
         ) {
             Column(
                 modifier = Modifier
@@ -66,18 +78,32 @@ fun AuthScreen() {
                         color = TextPrimary
                     )
                 }
-                GoogleSignInButton(
-                    loading = false
+                GoogleButtonUiContainerFirebase(
+                    linkAccount = false,
+                    onResult = { result ->
+                        result.onSuccess { user ->
+                            messageBarState.addSuccess("Welcome! to Nutrisport")
+                            loadingState = false
+                        }.onFailure { error ->
+                            if (error.message?.contains("A network error") == true) {
+                                messageBarState.addError(Exception("No internet connection"))
+                            } else if (error.message?.contains("IdToken is null") == true) {
+                                messageBarState.addError(Exception("SignIn canceled"))
+                            } else {
+                                messageBarState.addError(error.message ?: "Unknow error")
+                            }
+                            loadingState = false
+                        }
+                    }
                 ) {
-                    // Handle Google Sign-In click
+                    GoogleSignInButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        loading = loadingState
+                    ) {
+                        this@GoogleButtonUiContainerFirebase.onClick()
+                    }
                 }
             }
         }
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun AuthScreenPreview() {
-    AuthScreen()
 }
