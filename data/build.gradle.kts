@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias (libs.plugins.serialization)
 }
 
 kotlin {
@@ -20,7 +19,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "shared"
+            baseName = "data"
             isStatic = true
         }
     }
@@ -36,13 +35,16 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation(libs.kotlinx.serialization)
+            implementation(libs.auth.firebase.kmp)
+            implementation(libs.firebase.firestore)
+
+            implementation(project(":shared"))
         }
     }
 }
 
 android {
-    namespace = "org.java90.shared"
+    namespace = "org.java90.data"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
