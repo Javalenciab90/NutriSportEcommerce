@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias (libs.plugins.serialization)
 }
 
 kotlin {
@@ -20,17 +19,12 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "navigation"
+            baseName = "home"
             isStatic = true
         }
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.splash.screen)
-        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -41,22 +35,16 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation(libs.compose.navigation)
-            implementation(libs.kotlinx.serialization)
+            implementation(libs.auth.firebase.kmp)
+            implementation(libs.firebase.firestore)
 
-            implementation(libs.koin.compose)
-
-            implementation(project(path = ":feature:auth"))
-            implementation(project(path = ":feature:home"))
-        }
-        commonTest.dependencies {
-
+            implementation(project(":shared"))
         }
     }
 }
 
 android {
-    namespace = "org.java90.navigation"
+    namespace = "org.java90.home"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

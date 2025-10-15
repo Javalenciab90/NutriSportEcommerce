@@ -8,4 +8,7 @@ sealed class Screen {
     @Serializable
     object Auth : Screen()
 
+    @Serializable
+    object HomeGraph : Screen()
+
 }
