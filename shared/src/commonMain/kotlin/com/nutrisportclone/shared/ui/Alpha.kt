@@ -1,4 +1,4 @@
-package com.nutrisportclone.shared
+package com.nutrisportclone.shared.ui
 
 object Alpha {
     const val FULL = 1f

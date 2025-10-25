@@ -1,4 +1,4 @@
-package com.nutrisportclone.shared
+package com.nutrisportclone.shared.ui
 
 import nutrisportclone.shared.generated.resources.Res
 import nutrisportclone.shared.generated.resources.back_arrow

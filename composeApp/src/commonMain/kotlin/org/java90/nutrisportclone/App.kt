@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import com.mmk.kmpauth.google.GoogleAuthCredentials
 import com.mmk.kmpauth.google.GoogleAuthProvider
 import com.nutrisportclone.data.domain.CustomerRepository
-import com.nutrisportclone.navigation.Screen
+import com.nutrisportclone.shared.navigation.Screen
 import com.nutrisportclone.navigation.SetupNavigationGraph
 import com.nutrisportclone.shared.Constants
 import org.jetbrains.compose.ui.tooling.preview.Preview

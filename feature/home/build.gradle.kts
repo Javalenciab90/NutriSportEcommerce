@@ -38,6 +38,8 @@ kotlin {
             implementation(libs.auth.firebase.kmp)
             implementation(libs.firebase.firestore)
 
+            implementation(libs.compose.navigation)
+
             implementation(project(":shared"))
         }
     }
