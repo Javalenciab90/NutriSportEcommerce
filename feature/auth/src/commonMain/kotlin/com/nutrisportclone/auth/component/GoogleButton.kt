@@ -28,8 +28,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import com.nutrisportclone.shared.ui.BorderIdle
 import com.nutrisportclone.shared.ui.FontSize
-import com.nutrisportclone.shared.ui.GrayDarker
 import com.nutrisportclone.shared.ui.IconSecondary
 import com.nutrisportclone.shared.ui.Resources
 import com.nutrisportclone.shared.ui.SurfaceLighter
@@ -46,7 +46,7 @@ fun GoogleSignInButton(
     icon: DrawableResource = Resources.Image.GoogleLogo,
     shape: Shape = RoundedCornerShape(size = 99.dp),
     backgroundColor: Color = SurfaceLighter,
-    borderColor: Color = GrayDarker,
+    borderColor: Color = BorderIdle,
     progressIndicatorColor: Color = IconSecondary,
     onClick: () -> Unit
 ) {
