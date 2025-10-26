@@ -1,5 +1,7 @@
 package com.nutrisportclone.home
 
+import ContentWithMessageBar
+import MessageBarState
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -54,10 +56,14 @@ import com.nutrisportclone.shared.ui.SurfaceLighter
 import com.nutrisportclone.shared.ui.TextPrimary
 import com.nutrisportclone.shared.util.getScreenWidth
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
+import rememberMessageBarState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeGraphScreen() {
+fun HomeGraphScreen(
+    navigateToAuth: () -> Unit,
+) {
     val navController = rememberNavController()
     val currentRoute = navController.currentBackStackEntryAsState()
     val selectedDestination by remember {
@@ -92,6 +98,8 @@ fun HomeGraphScreen() {
         targetValue = if (drawerState.isOpened()) 20.dp else 0.dp
     )
 
+    val viewModel = koinViewModel<HomeGraphViewModel>()
+    val messageBarState = rememberMessageBarState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -101,7 +109,16 @@ fun HomeGraphScreen() {
         CustomDrawer(
             onProfileClick = { /* Handle profile click */ },
             onContactUsClick = { /* Handle contact us click */ },
-            onSignOutClick = { /* Handle sign out click */ },
+            onSignOutClick = {
+                viewModel.signOut(
+                    onSuccess = {
+                        navigateToAuth()
+                    },
+                    onError = { errorMessage ->
+                        messageBarState.addError(errorMessage)
+                    }
+                )
+            },
             onAdminClick = { /* Handle admin click */ }
         )
         Box(
@@ -169,46 +186,51 @@ fun HomeGraphScreen() {
                     )
                 }
             ) { paddingValues ->
-                Column(
+                ContentWithMessageBar(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(
                             top = paddingValues.calculateTopPadding(),
                             bottom = paddingValues.calculateBottomPadding()
-                        )
+                        ),
+                    messageBarState = messageBarState,
+                    errorMaxLines = 2,
+                    contentBackgroundColor = Surface
                 ) {
-                    NavHost(
-                        modifier = Modifier.weight(1f),
-                        navController = navController,
-                        startDestination = Screen.ProductsOverview
-                    ) {
-                        composable<Screen.ProductsOverview> {
-                            Text("Products Overview")
-                        }
-                        composable<Screen.Cart> {
-                            Text("Cart")
-                        }
-                        composable<Screen.Categories> {
-                            Text("Categories")
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Box(
-                        modifier = Modifier.padding(all = 12.dp)
-                    ) {
-                        BottomBar(
-                            selected = selectedDestination,
-                            onSelected = { destination ->
-                                navController.navigate(destination.screen) {
-                                    launchSingleTop = true
-                                    popUpTo<Screen.ProductsOverview> {
-                                        saveState = true
-                                        inclusive = false
-                                    }
-                                    restoreState = true
-                                }
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        NavHost(
+                            modifier = Modifier.weight(1f),
+                            navController = navController,
+                            startDestination = Screen.ProductsOverview
+                        ) {
+                            composable<Screen.ProductsOverview> {
+                                Text("Products Overview")
                             }
-                        )
+                            composable<Screen.Cart> {
+                                Text("Cart")
+                            }
+                            composable<Screen.Categories> {
+                                Text("Categories")
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Box(
+                            modifier = Modifier.padding(all = 12.dp)
+                        ) {
+                            BottomBar(
+                                selected = selectedDestination,
+                                onSelected = { destination ->
+                                    navController.navigate(destination.screen) {
+                                        launchSingleTop = true
+                                        popUpTo<Screen.ProductsOverview> {
+                                            saveState = true
+                                            inclusive = false
+                                        }
+                                        restoreState = true
+                                    }
+                                }
+                            )
+                        }
                     }
                 }
             }

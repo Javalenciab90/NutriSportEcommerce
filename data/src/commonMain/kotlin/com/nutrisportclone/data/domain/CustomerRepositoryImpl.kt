@@ -1,6 +1,7 @@
 package com.nutrisportclone.data.domain
 
 import com.nutrisportclone.shared.domain.models.Customer
+import com.nutrisportclone.shared.util.RequestState
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.FirebaseUser
 import dev.gitlive.firebase.auth.auth
@@ -35,6 +36,15 @@ class CustomerRepositoryImpl : CustomerRepository {
             }
         } catch (e: Exception) {
             onFailure("Error while creating a Customer: ${e.message}")
+        }
+    }
+
+    override suspend fun signOut(): RequestState<Unit> {
+        return try {
+            Firebase.auth.signOut()
+            RequestState.Success(Unit)
+        } catch (e: Exception) {
+            RequestState.Error("Error while signing out: ${e.message}")
         }
     }
 }

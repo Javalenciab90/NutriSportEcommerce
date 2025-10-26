@@ -39,8 +39,12 @@ kotlin {
             implementation(libs.firebase.firestore)
 
             implementation(libs.compose.navigation)
+            implementation(libs.messagebar.kmp)
+
+            implementation(libs.koin.compose.viewmodel)
 
             implementation(project(":shared"))
+            implementation(project(":data"))
         }
     }
 }

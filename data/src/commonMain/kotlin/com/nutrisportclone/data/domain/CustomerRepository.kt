@@ -1,5 +1,6 @@
 package com.nutrisportclone.data.domain
 
+import com.nutrisportclone.shared.util.RequestState
 import dev.gitlive.firebase.auth.FirebaseUser
 
 interface CustomerRepository {
@@ -11,4 +12,6 @@ interface CustomerRepository {
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     )
+
+    suspend fun signOut() : RequestState<Unit>
 }
