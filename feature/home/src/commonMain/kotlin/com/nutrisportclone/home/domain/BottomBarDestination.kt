@@ -1,4 +1,4 @@
-package com.nutrisportclone.home
+package com.nutrisportclone.home.domain
 
 import com.nutrisportclone.shared.navigation.Screen
 import com.nutrisportclone.shared.ui.Resources
