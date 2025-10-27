@@ -7,6 +7,7 @@ import nutrisportclone.shared.generated.resources.cat
 import nutrisportclone.shared.generated.resources.check
 import nutrisportclone.shared.generated.resources.checkmark_image
 import nutrisportclone.shared.generated.resources.close
+import nutrisportclone.shared.generated.resources.colombia
 import nutrisportclone.shared.generated.resources.delete
 import nutrisportclone.shared.generated.resources.dollar
 import nutrisportclone.shared.generated.resources.edit
@@ -75,5 +76,6 @@ object Resources {
         val India = Res.drawable.india
         val Usa = Res.drawable.usa
         val Serbia = Res.drawable.serbia
+        val Colombia = Res.drawable.colombia
     }
 }

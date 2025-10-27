@@ -1,4 +1,4 @@
-package com.nutrisportclone.profile.components
+package com.nutrisportclone.shared.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +26,7 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun AlertTextField(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     text: String,
     icon: DrawableResource? = null,
     onClick: () -> Unit
@@ -41,14 +42,14 @@ fun AlertTextField(
             .clip(RoundedCornerShape(size = 6.dp))
             .clickable { onClick() }
             .padding(
-                vertical = 20.dp,
+                vertical = 16.dp,
                 horizontal = 16.dp
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         icon?.let {
             Image(
-                modifier = Modifier.size(14.dp),
+                modifier = Modifier.size(14.dp).clip(CircleShape),
                 painter = painterResource(it),
                 contentDescription = "Text Field Icon"
             )

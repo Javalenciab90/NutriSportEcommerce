@@ -12,7 +12,7 @@ sealed class Screen {
     object HomeGraph : Screen()
 
     @Serializable
-    object Home : Screen()
+    object Profile : Screen()
 
     @Serializable
     object ProductsOverview : Screen()

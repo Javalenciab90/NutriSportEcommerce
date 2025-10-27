@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.nutrisportclone.auth.AuthScreen
 import com.nutrisportclone.home.HomeGraphScreen
+import com.nutrisportclone.profile.ProfileScreen
 import com.nutrisportclone.shared.navigation.Screen
 
 @Composable
@@ -33,8 +34,15 @@ fun SetupNavigationGraph(
                     navController.navigate(Screen.Auth) {
                         popUpTo<Screen.HomeGraph> { inclusive = true }
                     }
+                },
+                navigateToProfile = {
+                    navController.navigate(Screen.Profile)
                 }
             )
+        }
+
+        composable<Screen.Profile> {
+            ProfileScreen()
         }
     }
 }

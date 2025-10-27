@@ -1,4 +1,4 @@
-package com.nutrisportclone.profile.components
+package com.nutrisportclone.shared.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.border
@@ -12,12 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.nutrisportclone.shared.ui.Alpha
 import com.nutrisportclone.shared.ui.BorderError
 import com.nutrisportclone.shared.ui.BorderIdle
 import com.nutrisportclone.shared.ui.FontSize
+import com.nutrisportclone.shared.ui.SurfaceDarker
+import com.nutrisportclone.shared.ui.SurfaceLighter
 import com.nutrisportclone.shared.ui.TextPrimary
 
 @Composable
@@ -42,7 +46,8 @@ fun CustomTextField(
                 width = 1.dp,
                 color = borderColor,
                 shape = RoundedCornerShape(size = 6.dp)
-            ),
+            )
+            .clip(RoundedCornerShape(size = 6.dp)),
         value = text,
         onValueChange = onTextChange,
         placeholder = {
@@ -58,8 +63,19 @@ fun CustomTextField(
         singleLine = !expanded,
         keyboardOptions = keyboardOptions,
         colors = TextFieldDefaults.colors(
+            focusedContainerColor = SurfaceLighter,
+            unfocusedContainerColor = SurfaceLighter,
+            disabledContainerColor = SurfaceDarker,
             focusedTextColor = TextPrimary,
-            disabledTextColor = TextPrimary.copy(alpha = Alpha.DISABLED)
+            unfocusedTextColor = TextPrimary,
+            disabledTextColor = TextPrimary.copy(alpha = Alpha.DISABLED),
+            focusedPlaceholderColor = TextPrimary.copy(alpha = Alpha.HALF),
+            unfocusedPlaceholderColor = TextPrimary.copy(alpha = Alpha.HALF),
+            disabledPlaceholderColor = TextPrimary.copy(alpha = Alpha.DISABLED),
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            errorIndicatorColor = Color.Transparent,
         )
     )
 }
