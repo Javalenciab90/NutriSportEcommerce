@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -33,15 +32,15 @@ fun ProfileForm(
     lastName: String,
     onLastNameChange: (String) -> Unit,
     email: String,
-    city: String,
+    city: String? = null,
     onCityChange: (String) -> Unit,
     country: Country,
     onCountryChange: (Country) -> Unit,
-    postalCode: Int?,
+    postalCode: Int? = null,
     onPostalCodeChange: (Int?) -> Unit,
-    address: String,
+    address: String? = null,
     onAddressChange: (String) -> Unit,
-    phoneNumber: String,
+    phoneNumber: String? = null,
     onPhoneNumberChange: (String) -> Unit
 ) {
 
@@ -60,11 +59,9 @@ fun ProfileForm(
         )
     }
 
-
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(vertical = 12.dp, horizontal = 24.dp)
             .verticalScroll(state = rememberScrollState())
             .imePadding(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -88,22 +85,22 @@ fun ProfileForm(
             enabled = false
         )
         CustomTextField(
-            text = city,
+            text = city ?: "",
             onTextChange = { onCityChange(it) },
             placeholder = "City",
-            showError = city.length !in 3..50
+            showError = city?.length !in 3..50
         )
         CustomTextField(
             text = postalCode?.toString() ?: "",
             onTextChange = { onPostalCodeChange(it.toIntOrNull()) },
             placeholder = "Postal Code",
-            showError = postalCode.toString().length !in 3..8
+            showError = postalCode == null || postalCode.toString().length !in 3..8
         )
         CustomTextField(
-            text = address,
+            text = address ?: "",
             onTextChange = { onAddressChange(it) },
             placeholder = "Address",
-            showError = address.length !in 3..50
+            showError = address?.length !in 3..50
         )
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -116,10 +113,10 @@ fun ProfileForm(
             )
             Spacer(modifier = Modifier.width(12.dp))
             CustomTextField(
-                text = phoneNumber,
+                text = phoneNumber ?: "",
                 onTextChange = { onPhoneNumberChange(it) },
                 placeholder = "Phone Number",
-                showError = phoneNumber.length !in 3..30,
+                showError = phoneNumber?.length !in 3..30,
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone)
             )
         }

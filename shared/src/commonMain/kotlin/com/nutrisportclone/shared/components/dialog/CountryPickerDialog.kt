@@ -194,7 +194,7 @@ fun CountryPicker(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            modifier = Modifier.size(14.dp),
+            modifier = Modifier.size(14.dp).clip(CircleShape),
             painter = painterResource(country.flag),
             contentDescription = "Country flag image",
             colorFilter = ColorFilter.colorMatrix(colorMatrix)

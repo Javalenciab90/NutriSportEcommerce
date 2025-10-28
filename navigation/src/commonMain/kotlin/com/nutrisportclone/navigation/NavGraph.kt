@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.nutrisportclone.auth.AuthScreen
 import com.nutrisportclone.home.HomeGraphScreen
-import com.nutrisportclone.profile.ProfileScreen
+import com.nutrisportclone.profile.ui.ProfileScreen
 import com.nutrisportclone.shared.navigation.Screen
 
 @Composable
@@ -42,7 +42,11 @@ fun SetupNavigationGraph(
         }
 
         composable<Screen.Profile> {
-            ProfileScreen()
+            ProfileScreen(
+                navigateBack = {
+                    navController.navigateUp()
+                }
+            )
         }
     }
 }

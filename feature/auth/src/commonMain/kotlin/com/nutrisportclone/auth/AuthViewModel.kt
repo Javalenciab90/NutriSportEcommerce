@@ -21,7 +21,7 @@ class AuthViewModel(
             customerRepository.createCustomer(
                 user = user,
                 onSuccess = onSuccess,
-                onFailure = onError
+                onError = onError
             )
         }
      }
