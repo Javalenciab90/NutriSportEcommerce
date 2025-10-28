@@ -27,8 +27,8 @@ enum class DrawerItem(
         title = "Sign Out",
         icon = Resources.Icon.SignOut
     ),
-    Admin(
-        title = "Admin",
+    AdminPanel(
+        title = "Admin Panel",
         icon = Resources.Icon.Unlock
     )
 }

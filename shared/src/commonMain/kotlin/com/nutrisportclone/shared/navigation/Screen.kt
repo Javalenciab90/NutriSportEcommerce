@@ -15,6 +15,9 @@ sealed class Screen {
     object Profile : Screen()
 
     @Serializable
+    object AdminPanel : Screen()
+
+    @Serializable
     object ProductsOverview : Screen()
 
     @Serializable

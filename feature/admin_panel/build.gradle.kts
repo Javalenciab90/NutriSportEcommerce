@@ -20,17 +20,12 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "navigation"
+            baseName = "admin_panel"
             isStatic = true
         }
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.splash.screen)
-        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -41,25 +36,20 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation(libs.compose.navigation)
+            implementation(libs.messagebar.kmp)
             implementation(libs.kotlinx.serialization)
 
+            implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.compose)
 
-            implementation(project(path = ":feature:auth"))
-            implementation(project(path = ":feature:home"))
-            implementation(project(path = ":feature:profile"))
-            implementation(project(path = ":feature:admin_panel"))
             implementation(project(path = ":shared"))
-        }
-        commonTest.dependencies {
-
+            implementation(project(path = ":data"))
         }
     }
 }
 
 android {
-    namespace = "org.java90.navigation"
+    namespace = "org.java90.admin_panel"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

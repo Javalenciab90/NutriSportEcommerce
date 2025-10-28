@@ -1,7 +1,6 @@
 package com.nutrisportclone.home
 
 import ContentWithMessageBar
-import MessageBarState
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
@@ -63,7 +62,8 @@ import rememberMessageBarState
 @Composable
 fun HomeGraphScreen(
     navigateToAuth: () -> Unit,
-    navigateToProfile: () -> Unit
+    navigateToProfile: () -> Unit,
+    navigateToAdminPanel: () -> Unit
 ) {
     val navController = rememberNavController()
     val currentRoute = navController.currentBackStackEntryAsState()
@@ -122,7 +122,9 @@ fun HomeGraphScreen(
                     }
                 )
             },
-            onAdminClick = { /* Handle admin click */ }
+            onAdminPanelClick = {
+                navigateToAdminPanel()
+            }
         )
         Box(
             modifier = Modifier
