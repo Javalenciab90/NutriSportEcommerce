@@ -27,6 +27,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
+            implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.android.client)
         }
         iosMain.dependencies {
@@ -47,6 +48,8 @@ kotlin {
 
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.compose)
+
+            implementation(libs.firebase.storage)
 
             implementation(libs.coil3)
             implementation(libs.coil3.compose)
