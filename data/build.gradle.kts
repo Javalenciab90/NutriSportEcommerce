@@ -37,6 +37,7 @@ kotlin {
 
             implementation(libs.auth.firebase.kmp)
             implementation(libs.firebase.firestore)
+            implementation(libs.firebase.storage)
 
             implementation(project(":shared"))
         }

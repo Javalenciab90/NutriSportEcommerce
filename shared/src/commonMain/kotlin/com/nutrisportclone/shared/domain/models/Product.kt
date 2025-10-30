@@ -16,7 +16,7 @@ data class Product(
     val thumbnail: String,
     val category: String,
     val flavors: List<String>? = null,
-    val weight: Double,
+    val weight: Int? = null,
     val price: Double,
     val isPopular: Boolean = false,
     val isDiscounted: Boolean = false,
