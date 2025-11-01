@@ -13,4 +13,10 @@ interface AdminRepository {
     )
 
     suspend fun uploadImage(file: File) : String?
+
+    suspend fun deleteImageFromStorage(
+        downloadUrl: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    )
 }

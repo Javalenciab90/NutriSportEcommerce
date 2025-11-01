@@ -79,7 +79,7 @@ fun CountryPickerDialog(
         title = {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Pick a country",
+                text = "Select a country",
                 fontSize = FontSize.EXTRA_MEDIUM,
                 color = TextPrimary
             )

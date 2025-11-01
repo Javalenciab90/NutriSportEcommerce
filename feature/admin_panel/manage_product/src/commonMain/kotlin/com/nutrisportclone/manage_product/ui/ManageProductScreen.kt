@@ -54,12 +54,14 @@ import com.nutrisportclone.shared.components.dialog.CategoriesDialog
 import com.nutrisportclone.shared.domain.models.ProductCategory
 import com.nutrisportclone.shared.ui.BebasNeueFont
 import com.nutrisportclone.shared.ui.BorderIdle
+import com.nutrisportclone.shared.ui.ButtonPrimary
 import com.nutrisportclone.shared.ui.FontSize
 import com.nutrisportclone.shared.ui.IconPrimary
 import com.nutrisportclone.shared.ui.Resources
 import com.nutrisportclone.shared.ui.Surface
 import com.nutrisportclone.shared.ui.SurfaceLighter
 import com.nutrisportclone.shared.ui.TextPrimary
+import com.nutrisportclone.shared.ui.TextSecondary
 import com.nutrisportclone.shared.util.DisplayResult
 import com.nutrisportclone.shared.util.RequestState
 import kotlinx.coroutines.async
@@ -209,16 +211,44 @@ fun ManageProductScreen(
                                 LoadingCard(modifier = Modifier.fillMaxSize())
                             },
                             onSuccess = { thumbnail ->
-                                AsyncImage(
+                                Box(
                                     modifier = Modifier.fillMaxSize(),
-                                    model = ImageRequest.Builder(
-                                        LocalPlatformContext.current)
-                                        .data(screenState.thumbnail)
-                                        .crossfade(true)
-                                        .build(),
-                                    contentDescription = "Thumbnail image",
-                                    contentScale = ContentScale.Crop
-                                )
+                                    contentAlignment = Alignment.TopEnd
+                                ) {
+                                    AsyncImage(
+                                        modifier = Modifier.fillMaxSize(),
+                                        model = ImageRequest.Builder(
+                                            LocalPlatformContext.current)
+                                            .data(screenState.thumbnail)
+                                            .crossfade(true)
+                                            .build(),
+                                        contentDescription = "Thumbnail image",
+                                        contentScale = ContentScale.Crop
+                                    )
+                                    Box(modifier = Modifier
+                                        .clip(RoundedCornerShape(size = 6.dp))
+                                        .padding(top = 12.dp, end = 12.dp)
+                                        .background(ButtonPrimary)
+                                        .clickable {
+                                            viewModel.deleteThumbnailFromStorage(
+                                                onSuccess = {
+                                                    messageBarState.addSuccess("Thumbnail removed successfully")
+                                                },
+                                                onError = { message ->
+                                                    messageBarState.addError(message)
+                                                }
+                                            )
+                                        }
+                                        .padding(all = 12.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Icon(
+                                            modifier = Modifier.size(14.dp),
+                                            painter = painterResource(Resources.Icon.Delete),
+                                            contentDescription = "Delete Icon"
+                                        )
+                                    }
+                                }
                             },
                             onError = { message ->
                                 Column(
@@ -240,7 +270,7 @@ fun ManageProductScreen(
                                         Text(
                                             text = "Tap to retry",
                                             fontSize = FontSize.SMALL,
-                                            color = TextPrimary
+                                            color = TextSecondary
                                         )
                                     }
 
