@@ -39,7 +39,7 @@ class ManageProductViewModel(
     val isValidForm: Boolean
         get() = screenState.title.isNotEmpty() &&
                 screenState.description.isNotEmpty() &&
-                //screenState.thumbnail.isNotEmpty() &&
+                screenState.thumbnail.isNotEmpty() &&
                 screenState.price > 0
 
     fun updateTitle(title: String) {

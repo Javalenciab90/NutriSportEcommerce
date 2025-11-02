@@ -7,10 +7,13 @@ import com.nutrisportclone.shared.ui.CategoryPurple
 import com.nutrisportclone.shared.ui.CategoryRed
 import com.nutrisportclone.shared.ui.CategoryYellow
 import kotlinx.serialization.Serializable
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Serializable
-data class Product(
+data class Product @OptIn(ExperimentalTime::class) constructor(
     val id: String,
+    val createdAt: Long = Clock.System.now().toEpochMilliseconds(),
     val title: String,
     val description: String,
     val thumbnail: String,

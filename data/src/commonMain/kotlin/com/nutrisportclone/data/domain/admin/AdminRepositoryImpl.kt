@@ -1,11 +1,16 @@
 package com.nutrisportclone.data.domain.admin
 
 import com.nutrisportclone.shared.domain.models.Product
+import com.nutrisportclone.shared.util.RequestState
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
+import dev.gitlive.firebase.firestore.Direction
 import dev.gitlive.firebase.firestore.firestore
 import dev.gitlive.firebase.storage.File
 import dev.gitlive.firebase.storage.storage
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.withTimeout
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -90,5 +95,41 @@ class AdminRepositoryImpl : AdminRepository {
         return encodePath
             .replace("%2F", "/") // Replace %2F (represents the slash) by the  /
             .replace("%20", " ") // Replace %20 (represents the space) by the space " "
+    }
+
+    override fun readLastTenProducts(): Flow<RequestState<List<Product>>> = channelFlow {
+        try {
+            val userId = getCurrentUserId()
+            if (userId != null) {
+                val database = Firebase.firestore
+                database.collection("products")
+                    .orderBy("createdAt", Direction.DESCENDING)
+                    .limit(10)
+                    .snapshots
+                    .collectLatest { query ->
+                        val products = query.documents.map { documentProduct ->
+                            Product(
+                                id = documentProduct.id,
+                                createdAt = documentProduct.get("createdAt"),
+                                title = documentProduct.get("title"),
+                                description = documentProduct.get("description"),
+                                thumbnail = documentProduct.get("thumbnail"),
+                                category = documentProduct.get("category"),
+                                weight = documentProduct.get("weight"),
+                                price = documentProduct.get("price"),
+                                flavors = documentProduct.get("flavors"),
+                                isPopular = documentProduct.get("isPopular"),
+                                isNew = documentProduct.get("isNew"),
+                                isDiscounted = documentProduct.get("isDiscounted")
+                            )
+                        }
+                        send(RequestState.Success(products))
+                    }
+            } else {
+                send(RequestState.Error("User is not available"))
+            }
+        } catch (e: Exception) {
+            send(RequestState.Error("Error while reading last 10 product from database: ${e.message}"))
+        }
     }
 }

@@ -297,19 +297,26 @@ fun ManageProductScreen(
                             showCategoriesDialog = true
                         }
                     )
-                    CustomTextField(
-                        text = "${screenState.weight ?: ""}",
-                        onTextChange = {
-                            viewModel.updateWeight(it.toIntOrNull() ?: 0)
-                        },
-                        placeholder = "Weight (Optional)",
-                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
-                    )
-                    CustomTextField(
-                        text = screenState.flavors,
-                        onTextChange = viewModel::updateFlavors,
-                        placeholder = "Flavors (Optional)"
-                    )
+                    AnimatedVisibility(
+                        visible = screenState.category != ProductCategory.Accessories
+                    ) {
+                        Column {
+                            CustomTextField(
+                                text = "${screenState.weight ?: ""}",
+                                onTextChange = {
+                                    viewModel.updateWeight(it.toIntOrNull() ?: 0)
+                                },
+                                placeholder = "Weight (Optional)",
+                                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            CustomTextField(
+                                text = screenState.flavors,
+                                onTextChange = viewModel::updateFlavors,
+                                placeholder = "Flavors (Optional)"
+                            )
+                        }
+                    }
                     CustomTextField(
                         text = "${screenState.price}",
                         onTextChange = { value ->
