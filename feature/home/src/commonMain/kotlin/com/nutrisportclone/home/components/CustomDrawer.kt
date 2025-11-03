@@ -1,5 +1,6 @@
 package com.nutrisportclone.home.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,13 +13,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nutrisportclone.home.domain.DrawerItem
+import com.nutrisportclone.shared.domain.models.Customer
 import com.nutrisportclone.shared.ui.BebasNeueFont
 import com.nutrisportclone.shared.ui.FontSize
 import com.nutrisportclone.shared.ui.TextPrimary
 import com.nutrisportclone.shared.ui.TextSecondary
+import com.nutrisportclone.shared.util.RequestState
 
 @Composable
 fun CustomDrawer(
+    customer: RequestState<Customer>,
     onProfileClick: () -> Unit,
     onContactUsClick: () -> Unit,
     onSignOutClick: () -> Unit,
@@ -60,10 +64,16 @@ fun CustomDrawer(
             Spacer(modifier = Modifier.height(12.dp))
         }
         Spacer(modifier = Modifier.weight(1f))
-        DrawerItemCard(
-            drawerItem = DrawerItem.AdminPanel,
-            onClick = { onAdminPanelClick() }
-        )
+        AnimatedContent(
+            targetState = customer
+        ) { customerState ->
+            if (customerState.isSuccess() && customerState.getSuccessData().isAdmin) {
+                DrawerItemCard(
+                    drawerItem = DrawerItem.AdminPanel,
+                    onClick = { onAdminPanelClick() }
+                )
+            }
+        }
         Spacer(modifier = Modifier.height(24.dp))
     }
 }

@@ -52,6 +52,12 @@ class CustomerRepositoryImpl : CustomerRepository {
                     .snapshots
                     .collectLatest { document ->
                         if (document.exists) {
+                            val privateDataDocument =
+                                database.collection(collectionPath = "customer")
+                                    .document(userId)
+                                    .collection(collectionPath = "privateData")
+                                    .document("role")
+                                    .get()
                             val customer = Customer(
                                 id = document.id,
                                 firstName = document.get("firstName"),
@@ -61,7 +67,8 @@ class CustomerRepositoryImpl : CustomerRepository {
                                 phoneNumber = document.get("phoneNumber"),
                                 address = document.get("address"),
                                 postalCode = document.get("postalCode"),
-                                cart = document.get("cart")
+                                cart = document.get("cart"),
+                                isAdmin = privateDataDocument.get(field = "isAdmin")
                             )
                             send(RequestState.Success(customer))
                         } else {

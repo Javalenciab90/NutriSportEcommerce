@@ -3,14 +3,24 @@ package com.nutrisportclone.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nutrisportclone.data.domain.CustomerRepository
+import com.nutrisportclone.shared.util.RequestState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeGraphViewModel(
     private val customerRepository: CustomerRepository
 ) : ViewModel() {
+
+    val customer = customerRepository.getCustomerFlow()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = RequestState.Loading
+        )
 
     fun signOut(
         onSuccess: () -> Unit,
