@@ -3,6 +3,7 @@ package com.nutrisportclone.manage_product.ui
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nutrisportclone.data.domain.admin.AdminRepository
@@ -11,12 +12,18 @@ import com.nutrisportclone.shared.domain.models.ProductCategory
 import com.nutrisportclone.shared.util.RequestState
 import dev.gitlive.firebase.storage.File
 import kotlinx.coroutines.launch
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-@OptIn(ExperimentalUuidApi::class)
+@OptIn(
+    ExperimentalUuidApi::class,
+    ExperimentalTime::class
+)
 data class ManageProductState (
     val id: String = Uuid.random().toHexString(),
+    val createdAt: Long = Clock.System.now().toEpochMilliseconds(),
     val title: String = "",
     val description: String = "",
     val thumbnail: String = "",
@@ -27,8 +34,11 @@ data class ManageProductState (
 )
 
 class ManageProductViewModel(
-    private val adminRepository: AdminRepository
+    private val adminRepository: AdminRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val productId = savedStateHandle.get<String>("productId") ?: ""
 
     var screenState by mutableStateOf(ManageProductState())
         private set
@@ -41,6 +51,36 @@ class ManageProductViewModel(
                 screenState.description.isNotEmpty() &&
                 screenState.thumbnail.isNotEmpty() &&
                 screenState.price > 0
+
+    init {
+        productId.takeIf { it.isNotEmpty() }?.let { id ->
+            viewModelScope.launch {
+                val selectedProduct = adminRepository.readProductById(id)
+                if (selectedProduct.isSuccess()) {
+                    val product = selectedProduct.getSuccessData()
+
+                    updateId(product.id)
+                    updateCreatedAt(product.createdAt)
+                    updateTitle(product.title)
+                    updateDescription(product.description)
+                    updateThumbnail(product.thumbnail)
+                    updateThumbnailState(RequestState.Success(Unit))
+                    updateCategory(ProductCategory.valueOf(product.category))
+                    updateFlavors(product.flavors?.joinToString(",") ?: "")
+                    updateWeight(product.weight)
+                    updatePrice(product.price)
+                }
+            }
+        }
+    }
+
+    fun updateId(value: String) {
+        screenState = screenState.copy(id = value)
+    }
+
+    fun updateCreatedAt(value: Long) {
+        screenState = screenState.copy(createdAt = value)
+    }
 
     fun updateTitle(title: String) {
         screenState = screenState.copy(title = title)
@@ -82,6 +122,7 @@ class ManageProductViewModel(
             adminRepository.createNewProduct(
                 product = Product(
                     id = screenState.id,
+                    createdAt = screenState.createdAt,
                     title = screenState.title,
                     description = screenState.description,
                     thumbnail = screenState.thumbnail,
@@ -98,24 +139,73 @@ class ManageProductViewModel(
 
     fun uploadThumbnailToStorage(
         file: File?,
-        onSuccess: () -> Unit
+        onSuccess: () -> Unit,
     ) {
-        if (file == null) return
-        updateThumbnailState(RequestState.Error("Failed to upload thumbnail. Error while selecting file"))
+        if (file == null) {
+            updateThumbnailState(RequestState.Error("File is null. Error while selecting an image."))
+            return
+        }
+
         updateThumbnailState(RequestState.Loading)
 
         viewModelScope.launch {
             try {
                 val downloadUrl = adminRepository.uploadImage(file)
+
                 if (downloadUrl.isNullOrEmpty()) {
-                    throw Exception("Failed to upload thumbnail. Error while uploading file")
+                    throw Exception("Failed to retrieve a download URL after the upload.")
                 }
-                onSuccess()
-                updateThumbnailState(RequestState.Success(Unit))
-                updateThumbnail(downloadUrl)
+
+                productId.takeIf { it.isNotEmpty() }?.let { id ->
+                    adminRepository.updateProductThumbnail(
+                        productId = id,
+                        downloadUrl = downloadUrl,
+                        onSuccess = {
+                            onSuccess()
+                            updateThumbnailState(RequestState.Success(Unit))
+                            updateThumbnail(downloadUrl)
+                        },
+                        onError = { message ->
+                            updateThumbnailState(RequestState.Error(message))
+                        }
+                    )
+                } ?: run {
+                    onSuccess()
+                    updateThumbnailState(RequestState.Success(Unit))
+                    updateThumbnail(downloadUrl)
+                }
             } catch (e: Exception) {
-                updateThumbnailState(RequestState.Error("Failed to upload thumbnail. Error: ${e.message}"))
+                updateThumbnailState(RequestState.Error("Error while uploading: $e"))
             }
+        }
+    }
+
+    fun updateProduct(
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit,
+    ) {
+        if (isValidForm ) {
+            viewModelScope.launch {
+                adminRepository.updateProduct(
+                    product = Product(
+                        id = screenState.id,
+                        createdAt = screenState.createdAt,
+                        title = screenState.title,
+                        description = screenState.description,
+                        thumbnail = screenState.thumbnail,
+                        category = screenState.category.name,
+                        flavors = screenState.flavors.split(",")
+                            .map { it.trim() }
+                            .filter { it.isNotEmpty() },
+                        weight = screenState.weight,
+                        price = screenState.price
+                    ),
+                    onSuccess = onSuccess,
+                    onError = onError
+                )
+            }
+        } else {
+            onError("Please fill in the information.")
         }
     }
 
@@ -127,11 +217,30 @@ class ManageProductViewModel(
             adminRepository.deleteImageFromStorage(
                 downloadUrl = screenState.thumbnail,
                 onSuccess = {
-                    updateThumbnailState(RequestState.Idle)
-                    onSuccess()
+                    productId.takeIf { it.isNotEmpty() }?.let { id ->
+                        viewModelScope.launch {
+                            adminRepository.updateProductThumbnail(
+                                productId = id,
+                                downloadUrl = "",
+                                onSuccess = {
+                                    updateThumbnail("")
+                                    updateThumbnailState(RequestState.Idle)
+                                    onSuccess()
+                                },
+                                onError = {
+                                    updateThumbnailState(RequestState.Error(it))
+                                }
+                            )
+                        }
+                    } ?: run {
+                        updateThumbnail("")
+                        updateThumbnailState(RequestState.Idle)
+                        onSuccess()
+                    }
                 },
                 onError = onError
             )
         }
     }
+
 }

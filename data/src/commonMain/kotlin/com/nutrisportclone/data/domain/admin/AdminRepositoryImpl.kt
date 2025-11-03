@@ -132,4 +132,100 @@ class AdminRepositoryImpl : AdminRepository {
             send(RequestState.Error("Error while reading last 10 product from database: ${e.message}"))
         }
     }
+
+    override suspend fun readProductById(productId: String): RequestState<Product> {
+        return try {
+            val userId = getCurrentUserId()
+            if (userId != null) {
+                val database = Firebase.firestore
+                val productDocument = database
+                    .collection("products")
+                    .document(productId)
+                    .get()
+                if (productDocument.exists) {
+                    return RequestState.Success(
+                        Product(
+                            id = productDocument.id,
+                            createdAt = productDocument.get("createdAt"),
+                            title = productDocument.get("title"),
+                            description = productDocument.get("description"),
+                            thumbnail = productDocument.get("thumbnail"),
+                            category = productDocument.get("category"),
+                            weight = productDocument.get("weight"),
+                            price = productDocument.get("price"),
+                            flavors = productDocument.get("flavors"),
+                            isPopular = productDocument.get("isPopular"),
+                            isNew = productDocument.get("isNew"),
+                            isDiscounted = productDocument.get("isDiscounted")
+                        )
+                    )
+                } else {
+                    return RequestState.Error("Product is not available")
+                }
+            } else {
+                RequestState.Error("User is not available")
+            }
+        } catch (e: Exception) {
+            RequestState.Error("Error while reading product from database: ${e.message}")
+        }
+    }
+
+    override suspend fun updateProductThumbnail(
+        productId: String,
+        downloadUrl: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit,
+    ) {
+        try {
+            val userId = getCurrentUserId()
+            if (userId != null) {
+                val database = Firebase.firestore
+                val productCollection = database.collection(collectionPath = "products")
+                val existingProduct = productCollection
+                    .document(productId)
+                    .get()
+                if (existingProduct.exists) {
+                    productCollection
+                        .document(productId)
+                        .update("thumbnail" to downloadUrl)
+                    onSuccess()
+                } else {
+                    onError("Selected Product not found.")
+                }
+            } else {
+                onError("User is not available.")
+            }
+        } catch (e: Exception) {
+            onError("Error while updating a thumbnail image: ${e.message}")
+        }
+    }
+
+    override suspend fun updateProduct(
+        product: Product,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit,
+    ) {
+        try {
+            val userId = getCurrentUserId()
+            if (userId != null) {
+                val database = Firebase.firestore
+                val productCollection = database.collection(collectionPath = "products")
+                val existingProduct = productCollection
+                    .document(product.id)
+                    .get()
+                if (existingProduct.exists) {
+                    productCollection.document(product.id)
+                        .update(product.copy(title = product.title.lowercase()))
+                    onSuccess()
+                } else {
+                    onError("Selected Product not found.")
+                }
+            } else {
+                onError("User is not available.")
+            }
+        } catch (e: Exception) {
+            onError("Error while updating a thumbnail image: ${e.message}")
+        }
+    }
+
 }
