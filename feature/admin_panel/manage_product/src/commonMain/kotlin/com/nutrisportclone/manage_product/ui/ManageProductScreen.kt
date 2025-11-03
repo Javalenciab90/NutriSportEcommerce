@@ -20,6 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -83,6 +85,7 @@ fun ManageProductScreen(
     val thumbnailUploadState = viewModel.thumbnailUploadState
     var category by remember { mutableStateOf(ProductCategory.Protein) }
     var showCategoriesDialog by remember { mutableStateOf(false) }
+    var dropDownMenuOpen by remember { mutableStateOf(false) }
 
     val photoPicker = koinInject<PhotoPicker>()
     photoPicker.InitializePhotoPicker (
@@ -136,17 +139,55 @@ fun ManageProductScreen(
                     }
                 },
                 actions = {
-//                    IconButton(
-//                        onClick = {
-//
-//                        }
-//                    ) {
-//                        Icon(
-//                            painter = painterResource(Resources.Icon.Search),
-//                            contentDescription = "Search Icon",
-//                            tint = IconPrimary
-//                        )
-//                    }
+                    productId.takeIf { it != null }?.let {
+                        Box {
+                            IconButton(
+                                onClick = {
+                                    dropDownMenuOpen = true
+                                }
+                            ) {
+                                Icon(
+                                    painter = painterResource(Resources.Icon.VerticalMenu),
+                                    contentDescription = "Vertical Menu Icon",
+                                    tint = IconPrimary
+                                )
+                            }
+                            DropdownMenu(
+                                containerColor = Surface,
+                                expanded = dropDownMenuOpen,
+                                onDismissRequest = { dropDownMenuOpen = false }
+                            ) {
+                                DropdownMenuItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            modifier = Modifier.size(24.dp),
+                                            painter = painterResource(Resources.Icon.Delete),
+                                            contentDescription = "Delete Icon",
+                                            tint = IconPrimary
+                                        )
+                                    },
+                                    onClick = {
+                                        dropDownMenuOpen = false
+                                        viewModel.deleteProduct(
+                                            onSuccess = {
+                                                messageBarState.addSuccess("Product deleted successfully")
+                                                navigateBack()
+                                            },
+                                            onError = { message ->
+                                                messageBarState.addError(message)
+                                            }
+                                        )
+                                    },
+                                    text = {
+                                        Text(
+                                            text = "Delete Product",
+                                            color = TextPrimary,
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Surface,
