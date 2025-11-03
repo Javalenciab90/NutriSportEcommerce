@@ -19,12 +19,19 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "home"
+            baseName = "products_overview"
             isStatic = true
         }
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.android.client)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.darwin.client)
+        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -35,23 +42,22 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation(libs.auth.firebase.kmp)
-            implementation(libs.firebase.firestore)
-
-            implementation(libs.compose.navigation)
-            implementation(libs.messagebar.kmp)
-
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose)
+
+            implementation(libs.coil3)
+            implementation(libs.coil3.compose)
+            implementation(libs.coil3.compose.core)
+            implementation(libs.coil3.network.ktor)
 
             implementation(project(":shared"))
             implementation(project(":data"))
-            implementation(project(":feature:home:products_overview"))
         }
     }
 }
 
 android {
-    namespace = "org.java90.home"
+    namespace = "org.java90.products_overview"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

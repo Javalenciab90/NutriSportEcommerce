@@ -273,10 +273,6 @@ class AdminRepositoryImpl : AdminRepository {
                         .snapshots
                         .collectLatest { query ->
                             val products = query.documents.map { documentProduct ->
-                                val titleString = documentProduct.get("title") as String
-                                println(titleString)
-                                val createdAt = documentProduct.get("createdAt") as Long
-                                println(createdAt.toString())
                                 Product(
                                     id = documentProduct.id,
                                     createdAt = documentProduct.get("createdAt"),

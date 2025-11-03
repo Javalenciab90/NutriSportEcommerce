@@ -45,6 +45,7 @@ import com.nutrisportclone.home.domain.BottomBarDestination
 import com.nutrisportclone.home.domain.CustomDrawerState
 import com.nutrisportclone.home.domain.isOpened
 import com.nutrisportclone.home.domain.opposite
+import com.nutrisportclone.products_overview.ui.ProductsOverviewScreen
 import com.nutrisportclone.shared.navigation.Screen
 import com.nutrisportclone.shared.ui.Alpha
 import com.nutrisportclone.shared.ui.BebasNeueFont
@@ -213,7 +214,9 @@ fun HomeGraphScreen(
                             startDestination = Screen.ProductsOverview
                         ) {
                             composable<Screen.ProductsOverview> {
-                                Text("Products Overview")
+                                ProductsOverviewScreen(
+                                    navigateToDetails = { }
+                                )
                             }
                             composable<Screen.Cart> {
                                 Text("Cart")

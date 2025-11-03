@@ -1,4 +1,4 @@
-package com.nutrisportclone.data.domain
+package com.nutrisportclone.data.domain.customer
 
 import com.nutrisportclone.shared.domain.models.Customer
 import com.nutrisportclone.shared.util.RequestState

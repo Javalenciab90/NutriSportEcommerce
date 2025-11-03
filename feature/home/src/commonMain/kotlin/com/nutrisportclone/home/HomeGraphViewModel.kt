@@ -2,7 +2,7 @@ package com.nutrisportclone.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nutrisportclone.data.domain.CustomerRepository
+import com.nutrisportclone.data.domain.customer.CustomerRepository
 import com.nutrisportclone.shared.util.RequestState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

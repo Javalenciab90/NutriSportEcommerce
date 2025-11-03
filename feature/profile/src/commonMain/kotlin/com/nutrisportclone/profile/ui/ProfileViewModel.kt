@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nutrisportclone.data.domain.CustomerRepository
+import com.nutrisportclone.data.domain.customer.CustomerRepository
 import com.nutrisportclone.shared.domain.models.Country
 import com.nutrisportclone.shared.domain.models.Customer
 import com.nutrisportclone.shared.domain.models.PhoneNumber
