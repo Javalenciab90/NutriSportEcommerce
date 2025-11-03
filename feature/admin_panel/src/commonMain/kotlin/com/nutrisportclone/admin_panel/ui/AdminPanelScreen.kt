@@ -52,7 +52,7 @@ fun AdminPanelScreen(
 ) {
 
     val viewModel = koinViewModel<AdminPanelViewModel>()
-    val products = viewModel.products.collectAsState()
+    val products = viewModel.filteredProducts.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     var searchBarVisible by remember { mutableStateOf(false) }
 

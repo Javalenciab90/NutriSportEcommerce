@@ -29,7 +29,8 @@ class AdminRepositoryImpl : AdminRepository {
             if (currentUserId != null) {
                 val firestore = Firebase.firestore
                 val productCollection = firestore.collection(collectionPath = "products")
-                productCollection.document(product.id).set(product)
+                productCollection.document(product.id)
+                    .set(product.copy(title = product.title.lowercase()))
                 onSuccess()
             } else {
                 onError("User is not authenticated")
@@ -123,7 +124,7 @@ class AdminRepositoryImpl : AdminRepository {
                                 isDiscounted = documentProduct.get("isDiscounted")
                             )
                         }
-                        send(RequestState.Success(products))
+                        send(RequestState.Success(data = products.map { it.copy(title = it.title.uppercase()) }))
                     }
             } else {
                 send(RequestState.Error("User is not available"))
@@ -143,22 +144,21 @@ class AdminRepositoryImpl : AdminRepository {
                     .document(productId)
                     .get()
                 if (productDocument.exists) {
-                    return RequestState.Success(
-                        Product(
-                            id = productDocument.id,
-                            createdAt = productDocument.get("createdAt"),
-                            title = productDocument.get("title"),
-                            description = productDocument.get("description"),
-                            thumbnail = productDocument.get("thumbnail"),
-                            category = productDocument.get("category"),
-                            weight = productDocument.get("weight"),
-                            price = productDocument.get("price"),
-                            flavors = productDocument.get("flavors"),
-                            isPopular = productDocument.get("isPopular"),
-                            isNew = productDocument.get("isNew"),
-                            isDiscounted = productDocument.get("isDiscounted")
-                        )
+                    val product = Product(
+                        id = productDocument.id,
+                        createdAt = productDocument.get("createdAt"),
+                        title = productDocument.get("title"),
+                        description = productDocument.get("description"),
+                        thumbnail = productDocument.get("thumbnail"),
+                        category = productDocument.get("category"),
+                        weight = productDocument.get("weight"),
+                        price = productDocument.get("price"),
+                        flavors = productDocument.get("flavors"),
+                        isPopular = productDocument.get("isPopular"),
+                        isNew = productDocument.get("isNew"),
+                        isDiscounted = productDocument.get("isDiscounted")
                     )
+                    RequestState.Success(product.copy(title = product.title.uppercase()))
                 } else {
                     return RequestState.Error("Product is not available")
                 }
@@ -272,20 +272,24 @@ class AdminRepositoryImpl : AdminRepository {
                         //                        .endAt(endText)
                         .snapshots
                         .collectLatest { query ->
-                            val products = query.documents.map { document ->
+                            val products = query.documents.map { documentProduct ->
+                                val titleString = documentProduct.get("title") as String
+                                println(titleString)
+                                val createdAt = documentProduct.get("createdAt") as Long
+                                println(createdAt.toString())
                                 Product(
-                                    id = document.id,
-                                    title = document.get(field = "title"),
-                                    createdAt = document.get(field = "createdAt"),
-                                    description = document.get(field = "description"),
-                                    thumbnail = document.get(field = "thumbnail"),
-                                    category = document.get(field = "category"),
-                                    flavors = document.get(field = "flavors"),
-                                    weight = document.get(field = "weight"),
-                                    price = document.get(field = "price"),
-                                    isPopular = document.get(field = "isPopular"),
-                                    isDiscounted = document.get(field = "isDiscounted"),
-                                    isNew = document.get(field = "isNew")
+                                    id = documentProduct.id,
+                                    createdAt = documentProduct.get("createdAt"),
+                                    title = documentProduct.get("title"),
+                                    description = documentProduct.get("description"),
+                                    thumbnail = documentProduct.get("thumbnail"),
+                                    category = documentProduct.get("category"),
+                                    weight = documentProduct.get("weight"),
+                                    price = documentProduct.get("price"),
+                                    flavors = documentProduct.get("flavors"),
+                                    isPopular = documentProduct.get("isPopular"),
+                                    isNew = documentProduct.get("isNew"),
+                                    isDiscounted = documentProduct.get("isDiscounted")
                                 )
                             }
                             send(

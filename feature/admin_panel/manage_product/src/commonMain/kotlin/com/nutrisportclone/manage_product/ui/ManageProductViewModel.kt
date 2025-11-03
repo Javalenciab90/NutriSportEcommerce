@@ -122,7 +122,6 @@ class ManageProductViewModel(
             adminRepository.createNewProduct(
                 product = Product(
                     id = screenState.id,
-                    createdAt = screenState.createdAt,
                     title = screenState.title,
                     description = screenState.description,
                     thumbnail = screenState.thumbnail,
