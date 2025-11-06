@@ -24,6 +24,9 @@ sealed class Screen {
     object ProductsOverview : Screen()
 
     @Serializable
+    data class Details(val productId: String? = null) : Screen()
+
+    @Serializable
     object Cart : Screen()
 
     @Serializable

@@ -8,6 +8,7 @@ import com.nutrisportclone.data.domain.customer.CustomerRepository
 import com.nutrisportclone.data.domain.customer.CustomerRepositoryImpl
 import com.nutrisportclone.data.domain.product.ProductRepository
 import com.nutrisportclone.data.domain.product.ProductRepositoryImpl
+import com.nutrisportclone.details.ui.DetailsViewModel
 import com.nutrisportclone.home.HomeGraphViewModel
 import com.nutrisportclone.manage_product.ui.ManageProductViewModel
 import com.nutrisportclone.products_overview.ui.ProductsOverviewViewModel
@@ -29,6 +30,7 @@ val  sharedKoinModules = module {
     viewModelOf(::ManageProductViewModel)
     viewModelOf(::AdminPanelViewModel)
     viewModelOf(::ProductsOverviewViewModel)
+    viewModelOf(::DetailsViewModel)
 }
 
 expect val targetModule: Module
