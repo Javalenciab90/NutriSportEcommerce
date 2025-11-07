@@ -8,6 +8,7 @@ import androidx.navigation.toRoute
 import com.nutrisportclone.admin_panel.ui.AdminPanelScreen
 import com.nutrisportclone.auth.AuthScreen
 import com.nutrisportclone.category_search.ui.CategorySearchScreen
+import com.nutrisportclone.checkout.ui.CheckoutScreen
 import com.nutrisportclone.details.ui.DetailsScreen
 import com.nutrisportclone.home.HomeGraphScreen
 import com.nutrisportclone.manage_product.ui.ManageProductScreen
@@ -52,6 +53,9 @@ fun SetupNavigationGraph(
                 },
                 navigateToCategorySearch = { category ->
                     navController.navigate(Screen.CategorySearch(category))
+                },
+                navigateToCheckout = { totalAmount ->
+                    navController.navigate(Screen.Checkout(totalAmount))
                 }
             )
         }
@@ -105,5 +109,30 @@ fun SetupNavigationGraph(
                 }
             )
         }
+
+        composable<Screen.Checkout> {
+            val totalAmount = it.toRoute<Screen.Checkout>().totalAmount
+            CheckoutScreen(
+                totalAmount = totalAmount.toDoubleOrNull() ?: 0.0,
+                navigateBack = {
+                    navController.navigateUp()
+                },
+                navigateToPaymentCompleted = { isSuccess, error ->
+                    //navController.navigate(Screen.PaymentCompleted(isSuccess, error))
+                }
+            )
+        }
+
+//        composable<Screen.PaymentCompleted> {
+//            PaymentCompleted(
+//                navigateBack = {
+//                    navController.navigate(Screen.HomeGraph) {
+//                        launchSingleTop = true
+//                        // Clear backstack completely
+//                        popUpTo(0) { inclusive = true }
+//                    }
+//                }
+//            )
+//        }
     }
 }

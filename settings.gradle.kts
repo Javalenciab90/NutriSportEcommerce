@@ -27,11 +27,14 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+include(":checkout")
 include(":data")
 include(":di")
 include(":feature:admin_panel")
 include(":feature:admin_panel:manage_product")
 include(":feature:details")
+include(":feature:home:cart:checkout")
+include(":feature:home:cart:checkout")
 include(":feature:home:categories")
 include(":feature:home:categories:category_search")
 include(":feature:home:products_overview")

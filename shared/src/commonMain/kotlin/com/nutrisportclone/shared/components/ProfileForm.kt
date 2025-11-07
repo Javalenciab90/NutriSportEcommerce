@@ -34,7 +34,7 @@ fun ProfileForm(
     city: String? = null,
     onCityChange: (String) -> Unit,
     country: Country,
-    onCountryChange: (Country) -> Unit,
+    onCountrySelect: (Country) -> Unit,
     postalCode: Int? = null,
     onPostalCodeChange: (Int?) -> Unit,
     address: String? = null,
@@ -53,7 +53,7 @@ fun ProfileForm(
             onDismiss = { showCountryPicker = false },
             onConfirmClick = { countrySelected ->
                 showCountryPicker = false
-                onCountryChange(countrySelected)
+                onCountrySelect(countrySelected)
             }
         )
     }

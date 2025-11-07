@@ -1,7 +1,6 @@
 package com.nutrisportclone.profile.ui
 
 import ContentWithMessageBar
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,19 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nutrisportclone.shared.components.ErrorCard
 import com.nutrisportclone.shared.components.InfoCard
 import com.nutrisportclone.shared.components.LoadingCard
 import com.nutrisportclone.shared.components.PrimaryButton
 import com.nutrisportclone.shared.components.ProfileForm
-import com.nutrisportclone.shared.domain.models.Country
 import com.nutrisportclone.shared.ui.BebasNeueFont
 import com.nutrisportclone.shared.ui.FontSize
 import com.nutrisportclone.shared.ui.IconPrimary
@@ -135,7 +127,7 @@ fun ProfileScreen(
                                    city = viewModelState.city,
                                    onCityChange = viewModel::updateCity,
                                    country = viewModelState.country,
-                                   onCountryChange = viewModel::updateCountry,
+                                   onCountrySelect = viewModel::updateCountry,
                                    postalCode = viewModelState.postalCode,
                                    onPostalCodeChange = viewModel::updatePostalCode,
                                    phoneNumber = viewModelState.phoneNumber?.number,

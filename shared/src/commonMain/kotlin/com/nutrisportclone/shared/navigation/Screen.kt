@@ -18,10 +18,13 @@ sealed class Screen {
     data class Details(val productId: String? = null) : Screen()
 
     @Serializable
+    object Categories : Screen()
+
+    @Serializable
     object Cart : Screen()
 
     @Serializable
-    object Categories : Screen()
+    data class Checkout(val totalAmount: String) : Screen()
 
     @Serializable
     data class CategorySearch(val category: String) : Screen()

@@ -4,10 +4,14 @@ import com.nutrisportclone.admin_panel.ui.AdminPanelViewModel
 import com.nutrisportclone.auth.AuthViewModel
 import com.nutrisportclone.cart.ui.CartViewModel
 import com.nutrisportclone.category_search.ui.CategorySearchViewModel
+import com.nutrisportclone.checkout.service.PaypalApi
+import com.nutrisportclone.checkout.ui.CheckoutViewModel
 import com.nutrisportclone.data.domain.admin.AdminRepository
 import com.nutrisportclone.data.domain.admin.AdminRepositoryImpl
 import com.nutrisportclone.data.domain.customer.CustomerRepository
 import com.nutrisportclone.data.domain.customer.CustomerRepositoryImpl
+import com.nutrisportclone.data.domain.order.OrderRepository
+import com.nutrisportclone.data.domain.order.OrderRepositoryImpl
 import com.nutrisportclone.data.domain.product.ProductRepository
 import com.nutrisportclone.data.domain.product.ProductRepositoryImpl
 import com.nutrisportclone.details.ui.DetailsViewModel
@@ -25,6 +29,8 @@ val  sharedKoinModules = module {
     single<CustomerRepository> { CustomerRepositoryImpl() }
     single<AdminRepository> { AdminRepositoryImpl() }
     single<ProductRepository> { ProductRepositoryImpl() }
+    single<OrderRepository> { OrderRepositoryImpl(get()) }
+    single<PaypalApi> { PaypalApi() }
 
     viewModelOf(::AuthViewModel)
     viewModelOf(::HomeGraphViewModel)
@@ -35,6 +41,7 @@ val  sharedKoinModules = module {
     viewModelOf(::DetailsViewModel)
     viewModelOf(::CartViewModel)
     viewModelOf(::CategorySearchViewModel)
+    viewModelOf(::CheckoutViewModel)
 }
 
 expect val targetModule: Module
