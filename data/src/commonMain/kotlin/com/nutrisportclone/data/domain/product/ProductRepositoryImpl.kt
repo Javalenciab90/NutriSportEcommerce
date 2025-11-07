@@ -128,9 +128,16 @@ class ProductRepositoryImpl : ProductRepository {
             val userId = getCurrentUserId()
             if (userId != null) {
                 val database = Firebase.firestore
-                val productCollection = database.collection(collectionPath = "product")
+                val productCollection = database.collection(collectionPath = "products")
 
                 val allProducts = mutableListOf<Product>()
+
+                /**
+                 * splits that list into groups of 10 IDs each.
+                 * This is because Firestore’s in or array-contains-any queries are limited to 10 items per request.
+                 * So if you had 23 IDs, chunks would look like:
+                 * [ [id1 id10], [id11 id20], [id21 id23]]
+                 */
                 val chunks = ids.chunked(10)
 
                 chunks.forEachIndexed { index, chunk ->
@@ -156,6 +163,10 @@ class ProductRepositoryImpl : ProductRepository {
                             }
                             allProducts.addAll(products.map { it.copy(title = it.title.uppercase()) })
 
+                            /**
+                             * When you reach the last chunk, all chunks have been processed →
+                             * so it sends the complete list wrapped
+                             */
                             if (index == chunks.lastIndex) {
                                 send(RequestState.Success(allProducts))
                             }

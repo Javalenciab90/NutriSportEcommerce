@@ -39,6 +39,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.nutrisportclone.cart.ui.CartScreen
 import com.nutrisportclone.home.components.BottomBar
 import com.nutrisportclone.home.components.CustomDrawer
 import com.nutrisportclone.home.domain.BottomBarDestination
@@ -222,7 +223,7 @@ fun HomeGraphScreen(
                                 )
                             }
                             composable<Screen.Cart> {
-                                Text("Cart")
+                                CartScreen()
                             }
                             composable<Screen.Categories> {
                                 Text("Categories")
@@ -233,6 +234,7 @@ fun HomeGraphScreen(
                             modifier = Modifier.padding(all = 12.dp)
                         ) {
                             BottomBar(
+                                customer= customer,
                                 selected = selectedDestination,
                                 onSelected = { destination ->
                                     navController.navigate(destination.screen) {
