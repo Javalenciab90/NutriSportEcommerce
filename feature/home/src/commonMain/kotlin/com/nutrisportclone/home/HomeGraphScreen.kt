@@ -40,6 +40,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.nutrisportclone.cart.ui.CartScreen
+import com.nutrisportclone.categories.ui.CategoriesScreen
 import com.nutrisportclone.home.components.BottomBar
 import com.nutrisportclone.home.components.CustomDrawer
 import com.nutrisportclone.home.domain.BottomBarDestination
@@ -67,7 +68,8 @@ fun HomeGraphScreen(
     navigateToAuth: () -> Unit,
     navigateToProfile: () -> Unit,
     navigateToAdminPanel: () -> Unit,
-    navigateToDetails: (String) -> Unit
+    navigateToDetails: (String) -> Unit,
+    navigateToCategorySearch: (String) -> Unit
 ) {
     val navController = rememberNavController()
     val currentRoute = navController.currentBackStackEntryAsState()
@@ -226,7 +228,11 @@ fun HomeGraphScreen(
                                 CartScreen()
                             }
                             composable<Screen.Categories> {
-                                Text("Categories")
+                                CategoriesScreen(
+                                    navigateToCategorySearch = { category ->
+                                        navigateToCategorySearch(category)
+                                    }
+                                )
                             }
                         }
                         Spacer(modifier = Modifier.height(12.dp))

@@ -3,6 +3,7 @@ package com.nutrisportclone.di
 import com.nutrisportclone.admin_panel.ui.AdminPanelViewModel
 import com.nutrisportclone.auth.AuthViewModel
 import com.nutrisportclone.cart.ui.CartViewModel
+import com.nutrisportclone.category_search.ui.CategorySearchViewModel
 import com.nutrisportclone.data.domain.admin.AdminRepository
 import com.nutrisportclone.data.domain.admin.AdminRepositoryImpl
 import com.nutrisportclone.data.domain.customer.CustomerRepository
@@ -33,6 +34,7 @@ val  sharedKoinModules = module {
     viewModelOf(::ProductsOverviewViewModel)
     viewModelOf(::DetailsViewModel)
     viewModelOf(::CartViewModel)
+    viewModelOf(::CategorySearchViewModel)
 }
 
 expect val targetModule: Module

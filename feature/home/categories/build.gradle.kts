@@ -35,20 +35,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation(libs.auth.firebase.kmp)
-            implementation(libs.firebase.firestore)
-
-            implementation(libs.compose.navigation)
-            implementation(libs.messagebar.kmp)
-
-            implementation(libs.koin.compose.viewmodel)
-
-            implementation(project(":shared"))
-            implementation(project(":data"))
-            implementation(project(":feature:home:products_overview"))
-            implementation(project(":feature:home:cart"))
-            implementation(project(":feature:home:categories"))
-            implementation(project(":feature:home:categories:category_search"))
+            implementation(project(path = ":shared"))
+            implementation(project(path = ":data"))
         }
     }
 }

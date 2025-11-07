@@ -19,7 +19,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "home"
+            baseName = "category_search"
             isStatic = true
         }
     }
@@ -35,26 +35,17 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation(libs.auth.firebase.kmp)
-            implementation(libs.firebase.firestore)
-
-            implementation(libs.compose.navigation)
-            implementation(libs.messagebar.kmp)
-
+            implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
 
-            implementation(project(":shared"))
-            implementation(project(":data"))
-            implementation(project(":feature:home:products_overview"))
-            implementation(project(":feature:home:cart"))
-            implementation(project(":feature:home:categories"))
-            implementation(project(":feature:home:categories:category_search"))
+            implementation(project(path = ":shared"))
+            implementation(project(path = ":data"))
         }
     }
 }
 
 android {
-    namespace = "org.java90.home"
+    namespace = "org.java90.category_search"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

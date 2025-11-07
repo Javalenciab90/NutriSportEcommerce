@@ -15,7 +15,6 @@ kotlin {
     }
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
@@ -59,7 +58,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.nutrisport.cart"
+    namespace = "org.java90.cart"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

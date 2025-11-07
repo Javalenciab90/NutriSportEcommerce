@@ -12,15 +12,6 @@ sealed class Screen {
     object HomeGraph : Screen()
 
     @Serializable
-    object Profile : Screen()
-
-    @Serializable
-    object AdminPanel : Screen()
-
-    @Serializable
-    data class ManageProduct(val productId: String? = null) : Screen()
-
-    @Serializable
     object ProductsOverview : Screen()
 
     @Serializable
@@ -31,5 +22,17 @@ sealed class Screen {
 
     @Serializable
     object Categories : Screen()
+
+    @Serializable
+    data class CategorySearch(val category: String) : Screen()
+
+    @Serializable
+    object Profile : Screen()
+
+    @Serializable
+    object AdminPanel : Screen()
+
+    @Serializable
+    data class ManageProduct(val productId: String? = null) : Screen()
 
 }

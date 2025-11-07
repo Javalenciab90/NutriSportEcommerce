@@ -32,6 +32,8 @@ include(":di")
 include(":feature:admin_panel")
 include(":feature:admin_panel:manage_product")
 include(":feature:details")
+include(":feature:home:categories")
+include(":feature:home:categories:category_search")
 include(":feature:home:products_overview")
 
 include(":feature:home:products_overview")
