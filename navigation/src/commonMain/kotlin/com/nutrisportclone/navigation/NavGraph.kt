@@ -12,6 +12,7 @@ import com.nutrisportclone.checkout.ui.CheckoutScreen
 import com.nutrisportclone.details.ui.DetailsScreen
 import com.nutrisportclone.home.HomeGraphScreen
 import com.nutrisportclone.manage_product.ui.ManageProductScreen
+import com.nutrisportclone.payment_completed.ui.PaymentCompletedScreen
 import com.nutrisportclone.profile.ui.ProfileScreen
 import com.nutrisportclone.shared.domain.models.ProductCategory
 import com.nutrisportclone.shared.navigation.Screen
@@ -118,21 +119,19 @@ fun SetupNavigationGraph(
                     navController.navigateUp()
                 },
                 navigateToPaymentCompleted = { isSuccess, error ->
-                    //navController.navigate(Screen.PaymentCompleted(isSuccess, error))
+                    navController.navigate(Screen.PaymentCompleted(isSuccess, error))
                 }
             )
         }
 
-//        composable<Screen.PaymentCompleted> {
-//            PaymentCompleted(
-//                navigateBack = {
-//                    navController.navigate(Screen.HomeGraph) {
-//                        launchSingleTop = true
-//                        // Clear backstack completely
-//                        popUpTo(0) { inclusive = true }
-//                    }
-//                }
-//            )
-//        }
+        composable<Screen.PaymentCompleted> {
+            PaymentCompletedScreen(
+                navigateBack = {
+                    navController.navigate(Screen.HomeGraph) {
+                        launchSingleTop = true // Clear backstack completely
+                        popUpTo(0) { inclusive = true }
+                    }
+                })
+        }
     }
 }

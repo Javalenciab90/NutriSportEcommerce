@@ -1,0 +1,13 @@
+{
+  "projects": {
+    "default": "nutrisportclone"
+  },
+  "targets": {},
+  "etags": {
+    "nutrisportclone": {
+      "extensionInstances": {
+        "firestore-send-email": "cc65251d04623f427c01582703bd1d6934c2782cf5d67eedb74c91ab6272e3cd"
+      }
+    }
+  }
+}

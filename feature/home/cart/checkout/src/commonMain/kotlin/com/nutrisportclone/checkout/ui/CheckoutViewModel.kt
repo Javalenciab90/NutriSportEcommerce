@@ -171,7 +171,9 @@ class CheckoutViewModel(
         viewModelScope.launch {
             orderRepository.createTheOrder(
                 order = Order(
-                    customerId = screenState.id, items = screenState.cart, totalAmount = savedStateHandle.get<String>("totalAmount")?.toDoubleOrNull() ?: 0.0
+                    customerId = screenState.id,
+                    items = screenState.cart,
+                    totalAmount = savedStateHandle.get<String>("totalAmount")?.toDoubleOrNull() ?: 0.0
                 ),
                 onSuccess = onSuccess,
                 onError = onError
@@ -188,7 +190,7 @@ class CheckoutViewModel(
             viewModelScope.launch {
                 paypalApi.beginCheckout(
                     amount = Amount(
-                        currencyCode = "USD",
+                        currencyCode = "CO",
                         value = totalAmount
                     ),
                     fullName = "${screenState.firstName} ${screenState.lastName}",

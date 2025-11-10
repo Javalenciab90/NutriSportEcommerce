@@ -129,22 +129,22 @@ fun CheckoutScreen(
                     onPhoneNumberChange = viewModel::updatePhoneNumber
                 )
                 Column {
-                    PrimaryButton(
-                        text = "Pay with PayPal",
-                        icon = Resources.Image.PaypalLogo,
-                        enabled = isFormValid,
-                        onClick = {
-                            viewModel.payWithPayPal(
-                                onSuccess = {
-
-                                },
-                                onError = { message ->
-                                    messageBarState.addError(message)
-                                }
-                            )
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
+//                    PrimaryButton(
+//                        text = "Pay with PayPal",
+//                        icon = Resources.Image.PaypalLogo,
+//                        enabled = isFormValid,
+//                        onClick = {
+//                            viewModel.payWithPayPal(
+//                                onSuccess = {
+//
+//                                },
+//                                onError = { message ->
+//                                    messageBarState.addError(message)
+//                                }
+//                            )
+//                        }
+//                    )
+//                    Spacer(modifier = Modifier.height(12.dp))
                     PrimaryButton(
                         text = "Pay on Delivery",
                         icon = Resources.Icon.ShoppingCart,

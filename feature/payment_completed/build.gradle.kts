@@ -20,12 +20,18 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "navigation"
+            baseName = "payment_completed"
             isStatic = true
         }
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.ktor.android.client)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.darwin.client)
+        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -36,27 +42,26 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
-            implementation(libs.compose.navigation)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.serialization)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization)
 
-            implementation(libs.koin.compose)
+            implementation(libs.messagebar.kmp)
+            implementation(libs.browser.kmp)
 
             implementation(project(path = ":shared"))
-            implementation(project(path = ":feature:auth"))
-            implementation(project(path = ":feature:home"))
-            implementation(project(path = ":feature:profile"))
-            implementation(project(path = ":feature:details"))
-            implementation(project(path = ":feature:home:categories:category_search"))
-            implementation(project(path = ":feature:admin_panel"))
-            implementation(project(path = ":feature:admin_panel:manage_product"))
-            implementation(project(path = ":feature:home:cart:checkout"))
-            implementation(project(path = ":feature:payment_completed"))
+            implementation(project(path = ":data"))
         }
     }
 }
 
 android {
-    namespace = "org.java90.navigation"
+    namespace = "org.java90.payment_completed"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

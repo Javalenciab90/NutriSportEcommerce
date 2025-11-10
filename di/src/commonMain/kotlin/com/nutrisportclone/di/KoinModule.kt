@@ -17,6 +17,7 @@ import com.nutrisportclone.data.domain.product.ProductRepositoryImpl
 import com.nutrisportclone.details.ui.DetailsViewModel
 import com.nutrisportclone.home.HomeGraphViewModel
 import com.nutrisportclone.manage_product.ui.ManageProductViewModel
+import com.nutrisportclone.payment_completed.ui.PaymentViewModel
 import com.nutrisportclone.products_overview.ui.ProductsOverviewViewModel
 import com.nutrisportclone.profile.ui.ProfileViewModel
 import org.koin.core.KoinApplication
@@ -42,6 +43,7 @@ val  sharedKoinModules = module {
     viewModelOf(::CartViewModel)
     viewModelOf(::CategorySearchViewModel)
     viewModelOf(::CheckoutViewModel)
+    viewModelOf(::PaymentViewModel)
 }
 
 expect val targetModule: Module
