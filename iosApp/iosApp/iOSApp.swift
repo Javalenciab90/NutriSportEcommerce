@@ -1,6 +1,9 @@
 import SwiftUI
 import GoogleSignIn
 import Firebase
+import FirebaseCore
+import FirebaseMessaging
+import ComposeApp
 
 @main
 struct iOSApp: App {
@@ -26,6 +29,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         didFinishLaunchingWithOptions _launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         FirebaseApp.configure()
+        NotifierManager.shared.initialize(configuration: NotificationPlatformConfigurationIos(
+              showPushNotification: true,
+              askNotificationPermissionOnStart: true,
+              notificationSoundName: nil
+            )
+        )
         return false
+    }
+    
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+          Messaging.messaging().apnsToken = deviceToken
     }
 }
