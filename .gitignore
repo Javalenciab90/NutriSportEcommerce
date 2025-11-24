@@ -42,6 +42,7 @@ build/
 *.mode2v3
 *.perspectivev3
 
+iosApp/GoogleService-Info.plist
 # Common
 node_modules/
 *.swp
