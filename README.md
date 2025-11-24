@@ -4,6 +4,12 @@
 Es una aplicación Kotlin Multiplatform (KMP) construida con Compose Multiplatform, diseñada para compartir la mayor parte del código entre Android, iOS y Desktop.
 El proyecto sigue una arquitectura modular para permitir escalabilidad, mantenibilidad y la posibilidad de integrar código nativo por plataforma sin afectar al código común.
 
+## 📹 Demo Video
+
+[![Watch the video](https://github.com/user-attachments/assets/f19fdcd8-e7cd-445a-b420-963e557b5f1f)](
+https://youtu.be/GpuKyet1vcE)
+
+
 ## 🧱 Arquitectura del Proyecto
 El proyecto está organizado en módulos independientes que se comunican mediante dependencias bien definidas.
 Cada módulo contiene tres fuentes principales:
