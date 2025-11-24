@@ -9,6 +9,12 @@ El proyecto sigue una arquitectura modular para permitir escalabilidad, mantenib
 [![Watch the video](https://github.com/user-attachments/assets/f19fdcd8-e7cd-445a-b420-963e557b5f1f)](
 https://youtu.be/GpuKyet1vcE)
 
+## 📧 🎉 New Order Received
+
+Cuando se realiza una compra, inmediatamente se envía un correo con la información de la Nueva orden.
+
+<img width="920" height="857" alt="Diseño sin título" src="https://github.com/user-attachments/assets/85b5cd08-da43-4211-8615-a381e65cd5a7" />
+
 
 ## 🧱 Arquitectura del Proyecto
 El proyecto está organizado en módulos independientes que se comunican mediante dependencias bien definidas.
